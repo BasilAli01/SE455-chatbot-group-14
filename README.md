@@ -6,6 +6,12 @@ A real-time scene narration system that combines **YOLOv8** object detection wit
 
 ---
 
+## Demo
+
+▶️ [Watch the Demo on YouTube](https://youtu.be/BlQYlYLPI0Q)
+
+---
+
 ## How It Works
 
 ```
@@ -40,7 +46,7 @@ set OPENAI_API_KEY=sk-your-key-here
 ### 3. Run
 
 ```bash
-python scene_narrator.py
+python main.py
 ```
 
 ---
@@ -84,12 +90,18 @@ The system works without an OpenAI API key in **degraded mode**:
 ## Project Structure
 
 ```
-scene_narrator/
-├── scene_narrator.py    # Main application (all modules)
+SE455-chatbot-group-14/
+├── main.py              # App entry point and main loop
+├── config.py            # All configuration and parameters
 ├── requirements.txt     # Python dependencies
-├── README.md           # This file
-└── narration_log.json  # Auto-generated session log
-```
+├── README.md            # This file
+├── .env.example         # API key template
+├── core/
+│   ├── detector.py      # YOLODetector (YOLOv8)
+│   ├── narrator.py      # SceneNarrator (GPT-4V)
+│   └── tts.py           # TTSEngine (OpenAI TTS + pyttsx3)
+├── tests/               # Unit tests
+└── logs/                # Auto-generated narration logs```
 
 ---
 
@@ -109,8 +121,10 @@ This project maps directly to Beyond Vision's architecture:
 
 ## Team
 
-- Tariq Dabbagh
-- Abdulrahman Mahmalji
-- Abdullah Damati
+- Tariq Dabbagh 230279
+- Abdulrahman Mahmalji 230474
+- Abdullah Damati 230729
+- Basil Ali 230653
+- Abdulaziz Albaz 230631
 
 **Supervisor:** Dr. Nidal Nasser

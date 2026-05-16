@@ -57,21 +57,24 @@ class TTSEngine:
 
     def _speak_openai(self, text):
         try:
+            import tempfile
             response = self.openai_client.audio.speech.create(
                 model="tts-1",
                 voice=Config.TTS_VOICE,
                 input=text,
                 speed=Config.TTS_SPEED
             )
-            temp_path = "/tmp/scene_narration.mp3"
-            response.stream_to_file(temp_path)
+            with tempfile.NamedTemporaryFile(suffix=".mp3", delete=False) as f:
+                f.write(response.content)
+                temp_path = f.name
 
             if sys.platform == "darwin":
-                os.system(f"afplay {temp_path} &")
+                os.system(f"afplay {temp_path}")
             elif sys.platform == "linux":
-                os.system(f"mpg123 -q {temp_path} 2>/dev/null || ffplay -nodisp -autoexit {temp_path} 2>/dev/null &")
+                os.system(f"mpg123 -q {temp_path} 2>/dev/null || ffplay -nodisp -autoexit {temp_path} 2>/dev/null")
             else:
-                os.system(f"start {temp_path}")
+                from playsound import playsound
+                playsound(temp_path)
 
         except Exception as e:
             print(f"[ERROR] OpenAI TTS failed: {e}")
