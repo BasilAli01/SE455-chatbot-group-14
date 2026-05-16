@@ -56,27 +56,29 @@ class TTSEngine:
             self.is_speaking = False
 
     def _speak_openai(self, text):
-        try:
-            response = self.openai_client.audio.speech.create(
-                model="tts-1",
-                voice=Config.TTS_VOICE,
-                input=text,
-                speed=Config.TTS_SPEED
-            )
-            temp_path = "/tmp/scene_narration.mp3"
-            response.stream_to_file(temp_path)
+    try:
+        import tempfile
+        response = self.openai_client.audio.speech.create(
+            model="tts-1",
+            voice=Config.TTS_VOICE,
+            input=text,
+            speed=Config.TTS_SPEED
+        )
+        with tempfile.NamedTemporaryFile(suffix=".mp3", delete=False) as f:
+            f.write(response.content)
+            temp_path = f.name
 
-            if sys.platform == "darwin":
-                os.system(f"afplay {temp_path} &")
-            elif sys.platform == "linux":
-                os.system(f"mpg123 -q {temp_path} 2>/dev/null || ffplay -nodisp -autoexit {temp_path} 2>/dev/null &")
-            else:
-                os.system(f"start {temp_path}")
+        if sys.platform == "darwin":
+            os.system(f"afplay {temp_path} &")
+        elif sys.platform == "linux":
+            os.system(f"mpg123 -q {temp_path} 2>/dev/null || ffplay -nodisp -autoexit {temp_path} 2>/dev/null &")
+        else:
+            os.startfile(temp_path)
 
-        except Exception as e:
-            print(f"[ERROR] OpenAI TTS failed: {e}")
-            if PYTTSX3_AVAILABLE:
-                self._speak_pyttsx3(text)
+    except Exception as e:
+        print(f"[ERROR] OpenAI TTS failed: {e}")
+        if PYTTSX3_AVAILABLE:
+            self._speak_pyttsx3(text)
 
     def _speak_pyttsx3(self, text):
         try:
