@@ -119,6 +119,6 @@ This project maps directly to Beyond Vision's architecture:
 - Abdulrahman Mahmalji 230474
 - Abdullah Damati 230729
 - Basil Ali 230653
-- Abdulaziz Albaz 230361
+- Abdulaziz Albaz 230631
 
 **Supervisor:** Dr. Nidal Nasser
