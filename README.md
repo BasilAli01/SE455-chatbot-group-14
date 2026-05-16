@@ -6,6 +6,12 @@ A real-time scene narration system that combines **YOLOv8** object detection wit
 
 ---
 
+## Demo
+
+▶️ [Watch the Demo on YouTube](https://youtu.be/BlQYlYLPI0Q)
+
+---
+
 ## How It Works
 
 ```
